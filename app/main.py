@@ -13,13 +13,12 @@ app = FastAPI()
 
 
 
-class Post(BaseModel):
-    #schema 
-    # how the post api should look like 
-    # validation 
+class Post(BaseModel): 
     title:str 
-    content:str 
-    published: Optional[bool] = True # optional
+    description:str 
+    published: bool = True 
+
+
 while True:    
     try:
         conn = psycopg2.connect(host='localhost',database='social-media-api',user='postgres',password='anselmo', cursor_factory=RealDictCursor)     
@@ -34,12 +33,7 @@ while True:
 
 
 # like our db 
-my_posts = [    {
-        "title":"psodt 1 ",
-        "content":"desc 1",
-        "published":True,
-    },
-]
+
 
 
 
@@ -58,13 +52,13 @@ async def get_posts():
 
 
 @app.post("/post")
-def create_post(new_post:Post):
-    post_dict = new_post.dict()
-    post_dict["id"] = randrange(0,1000000)
-    my_posts.append(post_dict)
-
-
-    return {"data":post_dict}
+async def create_post(post:Post):
+    cursor.execute(""" INSERT INTO posts (title, description, published) VALUES (%s, %s, %s) RETURNING * """,(post.title,post.description,post.published))
+    # return the post 
+    new_post = cursor.fetchone()
+    # commint the changes to the db 
+    conn.commit()
+    return {"data":new_post}
 
 
 # @app.get("/posts/{id}")
@@ -73,13 +67,13 @@ def create_post(new_post:Post):
   
 #     return {"post":my_posts[id]}
 
-@app.delete("/posts/{id}",status_code=status.HTTP_204_NO_CONTENT)
-def delette_post(id:int):
-    for i,p in enumerate(my_posts):
-        if p["id"] == id:
-            return i
-    my_posts.pop(i)   
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+# @app.delete("/posts/{id}",status_code=status.HTTP_204_NO_CONTENT)
+# def delette_post(id:int):
+#     for i,p in enumerate(my_posts):
+#         if p["id"] == id:
+#             return i
+#     my_posts.pop(i)   
+#     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 # @app.put("posts/{id}")
