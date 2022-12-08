@@ -32,19 +32,16 @@ while True:
 
 
 
-# like our db 
-
-
-
 
 @app.get("/")
 def read_root():
     return {"Hello": "anselmo you are the best backend engineer"}
 
 
+
 @app.get('/posts')
 async def get_posts():
-    cursor.execute("""SELECT * FROM posts; """)
+    cursor.execute("""SELECT * FROM posts """)
 
     posts =  cursor.fetchall()
     return {"data":posts}
@@ -61,23 +58,36 @@ async def create_post(post:Post):
     return {"data":new_post}
 
 
-# @app.get("/posts/{id}")
-# def get_one_post(id:str,response = Response):
-#     print(id)
-  
-#     return {"post":my_posts[id]}
-
-# @app.delete("/posts/{id}",status_code=status.HTTP_204_NO_CONTENT)
-# def delette_post(id:int):
-#     for i,p in enumerate(my_posts):
-#         if p["id"] == id:
-#             return i
-#     my_posts.pop(i)   
-#     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-# @app.put("posts/{id}")
-# def update_post(id:int,post:Post ):
+@app.get("/posts/{postid}")
+async def get_one_post(postid:int):
 
-#     return {"msg":"update"}
+    cursor.execute(""" SELECT * FROM posts WHERE postid = %s""",(str(postid))) 
+    post = cursor.fetchone()
+
+    return {"post":post}
+
+
+
+
+@app.delete("/posts/{postid}",status_code=status.HTTP_204_NO_CONTENT)
+async def delette_post(postid:int):
+    cursor.execute(""" DELETE  FROM posts WHERE postid = %s RETURNING * """, (str(postid)))
+
+    cursor.fetchone()
+    conn.commit()
+
+    return {"date":f"deleted item with index {postid}sucessfully "}
+
+
+
+
+@app.put("/posts/{postid}")
+async def update_post(postid:int,post:Post ):
+
+    cursor.execute(""" UPDATE posts SET title = %s, description = %s, published = %s WHERE postid = %s  RETURNING * """, (post.title, post.description, post.published, str(postid)))
+    updated = cursor.fetchone()
+    conn.commit()
+    return {"data":updated}
 
