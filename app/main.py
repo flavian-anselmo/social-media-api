@@ -1,15 +1,20 @@
 from typing import Optional
-from fastapi import  FastAPI, Response, status
+from fastapi import  Depends, FastAPI, Response, status
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
 from random import randrange
 import time
+from sqlalchemy.orm import session
+from . import models
+from .database import engine, get_db
 
+models.Base.metadata.create_all(bind=engine)
 
 
 # entry to the application 
 app = FastAPI()
+
 
 
 
@@ -38,12 +43,17 @@ def read_root():
     return {"Hello": "anselmo you are the best backend engineer"}
 
 
+# app.get("/sqlalchemy")
+# def test(db:session = Depends(get_db)):
+#     posts = db.query(models.Post).all()
+
+#     return {"test":posts}
+
+
 
 @app.get('/posts')
-async def get_posts():
-    cursor.execute("""SELECT * FROM posts """)
-
-    posts =  cursor.fetchall()
+async def get_posts(db:session = Depends(get_db)):
+    posts = db.query(models.Post).all()
     return {"data":posts}
 
 
