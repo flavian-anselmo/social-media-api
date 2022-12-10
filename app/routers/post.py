@@ -6,23 +6,23 @@ from sqlalchemy.orm import session
 
 
 
-router = APIRouter()
-
-@router.get("/")
-def read_root():
-    return {"message": "Hello, Engineers!"}
+router = APIRouter(
+    prefix="/api/v1/posts",
+)
 
 
 
 
-@router.get('/posts',response_model = List[schema.PostResponse])
+
+
+@router.get('/',response_model = List[schema.PostResponse])
 async def get_posts(db:session = Depends(get_db)):
     posts = db.query(models.Post).all()
     return posts
 
 
 
-@router.post("/post",response_model = schema.PostResponse, status_code = status.HTTP_201_CREATED)
+@router.post("/",response_model = schema.PostResponse, status_code = status.HTTP_201_CREATED)
 async def create_post(post:schema.PostCreate, db:session = Depends(get_db)):
 
     # cursor.execute(""" INSERT INTO posts (title, description, published) VALUES (%s, %s, %s) RETURNING * """,(post.title,post.description,post.published))
@@ -43,7 +43,7 @@ async def create_post(post:schema.PostCreate, db:session = Depends(get_db)):
 
 
 
-@router.get("/posts/{postid}",response_model = schema.PostResponse)
+@router.get("/{postid}",response_model = schema.PostResponse)
 async def get_one_post(postid: int, db:session =  Depends(get_db)):
 
     # cursor.execute(""" SELECT * FROM posts WHERE postid = %s""",(str(postid))) 
@@ -53,7 +53,7 @@ async def get_one_post(postid: int, db:session =  Depends(get_db)):
 
 
 
-@router.delete("/posts/{postid}",status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{postid}",status_code=status.HTTP_204_NO_CONTENT)
 async def delette_post(postid:int, db:session =  Depends(get_db)):
     # cursor.execute(""" DELETE  FROM posts WHERE postid = %s RETURNING * """, (str(postid)))
 
@@ -68,7 +68,7 @@ async def delette_post(postid:int, db:session =  Depends(get_db)):
 
 
 
-@router.put("/posts/{postid}",response_model = schema.PostResponse)
+@router.put("/{postid}",response_model = schema.PostResponse)
 async def update_post(postid: int, post_update:schema.PostCreate, db: session = Depends(get_db) ):
     # cursor.execute(""" UPDATE posts SET title = %s, description = %s, published = %s WHERE postid = %s  RETURNING * """, (post.title, post.description, post.published, str(postid)))
     # updated = cursor.fetchone()

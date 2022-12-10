@@ -1,14 +1,7 @@
-from typing import Optional,List
-from fastapi import  Depends, FastAPI, HTTPException, Response, status
-import psycopg2
-from psycopg2.extras import RealDictCursor
-from pydantic import BaseModel
-from sqlalchemy.orm import session
 
-from app.utils import get_pswd_hash, verify_pswd
-
-from . import models, schema
-from .database import engine, get_db
+from fastapi import FastAPI
+from . import models
+from .database import engine
 from .routers import post, user
 
 models.Base.metadata.create_all(bind=engine)
@@ -17,12 +10,7 @@ models.Base.metadata.create_all(bind=engine)
 # entry to the application 
 app = FastAPI()
 
-
-
-
-
 # from routers
-
 
 app.include_router(post.router)
 
@@ -30,9 +18,9 @@ app.include_router(user.router)
 
 
 
-# @app.get("/")
-# def read_root():
-#     return {"Hello": "hello world"}
+@app.get("/")
+def read_root():
+    return {"Hello": "hello world"}
 
 
 
