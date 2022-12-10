@@ -114,3 +114,12 @@ async def create_user(user:schema.User ,db: session = Depends(get_db)):
     db.refresh(new_user)
 
     return new_user
+
+
+
+@app.get("/users/{user_id}", response_model = schema.UserResponse)
+async def get_user_id (user_id: int, db:session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.user_id == user_id).first()
+    if not user:
+        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND,detail="user not found")
+    return user
