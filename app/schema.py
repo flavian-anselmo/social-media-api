@@ -33,7 +33,7 @@ class PostResponse(PostBase):
 
 # user auth schema 
 
-class User(BaseModel):
+class UserCreate(BaseModel):
     email:EmailStr
     password:str
 
@@ -43,5 +43,7 @@ class UserResponse(BaseModel):
     # avoid returning the password to the user
     user_id:int
     email:EmailStr
+    created_at:datetime
+
     class Config:
         orm_mode = True

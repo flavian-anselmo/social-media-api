@@ -25,7 +25,7 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"Hello": "anselmo you are the best backend engineer"}
+    return {"Hello": "hello world"}
 
 
 
