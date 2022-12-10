@@ -22,16 +22,6 @@ app = FastAPI()
 
 
 
-while True:    
-    try:
-        conn = psycopg2.connect(host='localhost',database='social-media-api',user='postgres',password='anselmo', cursor_factory=RealDictCursor)     
-        cursor = conn.cursor()
-        print('DB connection was successfull')
-        break
-    except Exception as    error:
-        print('connetion failed ')
-        print(error)
-        time.sleep(5)
 
 
 
