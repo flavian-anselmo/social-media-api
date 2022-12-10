@@ -43,7 +43,7 @@ async def get_posts(db:session = Depends(get_db)):
 
 
 
-@app.post("/post",response_model = schema.PostResponse)
+@app.post("/post",response_model = schema.PostResponse, status_code = status.HTTP_201_CREATED)
 async def create_post(post:schema.PostCreate, db:session = Depends(get_db)):
 
     # cursor.execute(""" INSERT INTO posts (title, description, published) VALUES (%s, %s, %s) RETURNING * """,(post.title,post.description,post.published))
@@ -103,3 +103,13 @@ async def update_post(postid: int, post_update:schema.PostCreate, db: session = 
     db.commit()
     return post_query.first()
 
+
+
+@app.post("/users", status_code = status.HTTP_201_CREATED, response_model= schema.UserResponse)
+async def create_user(user:schema.User ,db: session = Depends(get_db)):
+    new_user = models.User(**user.dict())
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return new_user
