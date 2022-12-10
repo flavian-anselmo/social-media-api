@@ -6,7 +6,9 @@ from pydantic import BaseModel
 from random import randrange
 import time
 from sqlalchemy.orm import session
-from . import models
+
+from app.schema import Post
+from . import models, schema
 from .database import engine, get_db
 
 models.Base.metadata.create_all(bind=engine)
@@ -18,10 +20,6 @@ app = FastAPI()
 
 
 
-class Post(BaseModel): 
-    title:str 
-    description:str 
-    published: bool = True 
 
 
 while True:    
@@ -59,7 +57,7 @@ async def get_posts(db:session = Depends(get_db)):
 
 
 @app.post("/post")
-async def create_post(post:Post, db:session = Depends(get_db)):
+async def create_post(post:schema.Post, db:session = Depends(get_db)):
 
     # cursor.execute(""" INSERT INTO posts (title, description, published) VALUES (%s, %s, %s) RETURNING * """,(post.title,post.description,post.published))
     # # return the post 
@@ -106,7 +104,7 @@ async def delette_post(postid:int, db:session =  Depends(get_db)):
 
 
 @app.put("/posts/{postid}")
-async def update_post(postid: int, post_update: Post, db: session = Depends(get_db) ):
+async def update_post(postid: int, post_update:schema.Post, db: session = Depends(get_db) ):
     # cursor.execute(""" UPDATE posts SET title = %s, description = %s, published = %s WHERE postid = %s  RETURNING * """, (post.title, post.description, post.published, str(postid)))
     # updated = cursor.fetchone()
     # conn.commit()
