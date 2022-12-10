@@ -3,11 +3,8 @@ from fastapi import  Depends, FastAPI, HTTPException, Response, status
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
-from random import randrange
-import time
 from sqlalchemy.orm import session
 
-from app.schema import Post
 from . import models, schema
 from .database import engine, get_db
 
@@ -47,7 +44,7 @@ async def get_posts(db:session = Depends(get_db)):
 
 
 @app.post("/post")
-async def create_post(post:schema.Post, db:session = Depends(get_db)):
+async def create_post(post:schema.PostCreate, db:session = Depends(get_db)):
 
     # cursor.execute(""" INSERT INTO posts (title, description, published) VALUES (%s, %s, %s) RETURNING * """,(post.title,post.description,post.published))
     # # return the post 
@@ -94,7 +91,7 @@ async def delette_post(postid:int, db:session =  Depends(get_db)):
 
 
 @app.put("/posts/{postid}")
-async def update_post(postid: int, post_update:schema.Post, db: session = Depends(get_db) ):
+async def update_post(postid: int, post_update:schema.PostCreate, db: session = Depends(get_db) ):
     # cursor.execute(""" UPDATE posts SET title = %s, description = %s, published = %s WHERE postid = %s  RETURNING * """, (post.title, post.description, post.published, str(postid)))
     # updated = cursor.fetchone()
     # conn.commit()

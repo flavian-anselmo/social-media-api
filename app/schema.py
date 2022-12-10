@@ -1,22 +1,17 @@
 from pydantic import BaseModel
 
 # schema 
-class Post(BaseModel): 
+class PostBase(BaseModel): 
     title:str 
     description:str 
     published: bool = True 
 
 
 
-class CreatePost(BaseModel):
-    title:str 
-    description:str 
-    published: bool = True 
+class PostCreate(PostBase):
+    pass 
 
     
-class UpdatePost(BaseModel):
-    title:str 
-    description:str 
-    published: bool
+
 
 
