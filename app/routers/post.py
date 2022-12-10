@@ -8,6 +8,7 @@ from sqlalchemy.orm import session
 
 router = APIRouter(
     prefix="/api/v1/posts",
+    tags = ["post"]
 )
 
 
