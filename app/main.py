@@ -5,6 +5,8 @@ from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
 from sqlalchemy.orm import session
 
+from app.utils import get_pswd_hash, verify_pswd
+
 from . import models, schema
 from .database import engine, get_db
 
@@ -21,18 +23,10 @@ app = FastAPI()
 
 
 
-
-
 @app.get("/")
 def read_root():
     return {"Hello": "anselmo you are the best backend engineer"}
 
-
-# app.get("/sqlalchemy")
-# def test(db:session = Depends(get_db)):
-#     posts = db.query(models.Post).all()
-
-#     return {"test":posts}
 
 
 
@@ -107,6 +101,13 @@ async def update_post(postid: int, post_update:schema.PostCreate, db: session = 
 
 @app.post("/users", status_code = status.HTTP_201_CREATED, response_model= schema.UserResponse)
 async def create_user(user:schema.User ,db: session = Depends(get_db)):
+
+    # hash the pswd 
+    hashed_password = get_pswd_hash(user.password)
+    verify = verify_pswd(user.password, hashed_password)
+    if not verify:
+        raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST,detail="Invalid password")
+    user.password = hashed_password
     new_user = models.User(**user.dict())
     db.add(new_user)
     db.commit()
