@@ -19,6 +19,13 @@ async def create_user(user:schema.UserCreate, db: session = Depends(get_db)):
         raise HTTPException(status_code= status.HTTP_400_BAD_REQUEST,detail="Invalid password")
     user.password = hashed_password
     new_user = models.User(**user.dict())
+
+    user_email_check = db.get(user.email)
+    if user_email_check is not None:
+         raise HTTPException(
+         status_code=status.HTTP_400_BAD_REQUEST,
+         detail="User with this email already exist"
+        )
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
