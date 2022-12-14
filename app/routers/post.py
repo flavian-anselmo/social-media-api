@@ -3,6 +3,7 @@ from app.database import  get_db
 from .. import models, schema
 from fastapi import  APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import session
+from app import oauth2
 
 
 
@@ -24,7 +25,7 @@ async def get_posts(db:session = Depends(get_db)):
 
 
 @router.post("/",response_model = schema.PostResponse, status_code = status.HTTP_201_CREATED)
-async def create_post(post:schema.PostCreate, db:session = Depends(get_db)):
+async def create_post(post:schema.PostCreate, db:session = Depends(get_db), user_id:int = Depends(oauth2.get_current_user)):
 
     # cursor.execute(""" INSERT INTO posts (title, description, published) VALUES (%s, %s, %s) RETURNING * """,(post.title,post.description,post.published))
     # # return the post 
@@ -45,7 +46,7 @@ async def create_post(post:schema.PostCreate, db:session = Depends(get_db)):
 
 
 @router.get("/{postid}",response_model = schema.PostResponse)
-async def get_one_post(postid: int, db:session =  Depends(get_db)):
+async def get_one_post(postid: int, db:session =  Depends(get_db),user_id:int = Depends(oauth2.get_current_user)):
 
     # cursor.execute(""" SELECT * FROM posts WHERE postid = %s""",(str(postid))) 
     # post = cursor.fetchone()
@@ -55,7 +56,7 @@ async def get_one_post(postid: int, db:session =  Depends(get_db)):
 
 
 @router.delete("/{postid}",status_code=status.HTTP_204_NO_CONTENT)
-async def delette_post(postid:int, db:session =  Depends(get_db)):
+async def delette_post(postid:int, db:session =  Depends(get_db), user_id:int = Depends(oauth2.get_current_user)):
     # cursor.execute(""" DELETE  FROM posts WHERE postid = %s RETURNING * """, (str(postid)))
 
     # cursor.fetchone()
@@ -70,7 +71,7 @@ async def delette_post(postid:int, db:session =  Depends(get_db)):
 
 
 @router.put("/{postid}",response_model = schema.PostResponse)
-async def update_post(postid: int, post_update:schema.PostCreate, db: session = Depends(get_db) ):
+async def update_post(postid: int, post_update:schema.PostCreate, db: session = Depends(get_db), user_id:int = Depends(oauth2.get_current_user)):
     # cursor.execute(""" UPDATE posts SET title = %s, description = %s, published = %s WHERE postid = %s  RETURNING * """, (post.title, post.description, post.published, str(postid)))
     # updated = cursor.fetchone()
     # conn.commit()

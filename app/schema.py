@@ -53,3 +53,13 @@ class UserLogin(BaseModel):
     password:str
 
 
+class Token(BaseModel):
+    access_token:str
+    type:str
+    class Config:
+        orm_mode = True
+    
+class TokenPayLoad(BaseModel):
+    user_id:int
+
+
