@@ -12,8 +12,8 @@ from app.database import get_db
 router = APIRouter(tags=['Authentiction'])
 
 
-@router.post('/login')
-async def login( user_creds:OAuth2PasswordRequestForm =  Depends(), db: session = Depends(get_db), response_model = schema.Token) -> dict[str,str]:
+@router.post('/login',  response_model = schema.Token)
+async def login( user_creds:OAuth2PasswordRequestForm =  Depends(), db: session = Depends(get_db)) :
     """
     this is thre structure oauth will use to get user credentials
 
