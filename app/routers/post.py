@@ -18,14 +18,18 @@ router = APIRouter(
 
 
 @router.get('/',response_model = List[schema.PostResponse])
-async def get_posts(db:session = Depends(get_db)):
-    posts = db.query(models.Post).all()
+async def get_posts(db:session = Depends(get_db),current_user:int = Depends(oauth2.get_current_user),limit: int = 10, skip:int = 1 ):
+    # get all posts 
+    print(limit)
+    # query parameters with sql
+
+    posts = db.query(models.Post).limit(limit).offset(2).all()
     return posts
 
 
 
 @router.post("/",response_model = schema.PostResponse, status_code = status.HTTP_201_CREATED)
-async def create_post(post:schema.PostCreate, db:session = Depends(get_db), user_id:int = Depends(oauth2.get_current_user)):
+async def create_post(post:schema.PostCreate, db:session = Depends(get_db), current_user:int = Depends(oauth2.get_current_user)):
 
     # cursor.execute(""" INSERT INTO posts (title, description, published) VALUES (%s, %s, %s) RETURNING * """,(post.title,post.description,post.published))
     # # return the post 
@@ -35,7 +39,8 @@ async def create_post(post:schema.PostCreate, db:session = Depends(get_db), user
 
    #new_post =  models.Post( title = post.title,description = post.description,published = post.published)
    # commit 
-   new_post =  models.Post( **post.dict())
+   print(current_user.user_id)
+   new_post =  models.Post(owner_id = current_user.user_id, **post.dict())
 
    db.add(new_post)
    db.commit()
@@ -56,13 +61,18 @@ async def get_one_post(postid: int, db:session =  Depends(get_db),user_id:int = 
 
 
 @router.delete("/{postid}",status_code=status.HTTP_204_NO_CONTENT)
-async def delette_post(postid:int, db:session =  Depends(get_db), user_id:int = Depends(oauth2.get_current_user)):
+async def delette_post(postid:int, db:session =  Depends(get_db), current_user:int = Depends(oauth2.get_current_user)):
     # cursor.execute(""" DELETE  FROM posts WHERE postid = %s RETURNING * """, (str(postid)))
 
     # cursor.fetchone()
     # conn.commit()
     post = db.query(models.Post).filter(models.Post.postid == postid)
-    post.first()
+    owner_id = post.first().owner_id
+    print( current_user.user_id)
+    if post.first() == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= "post not found")
+    if owner_id != current_user.user_id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not Authoised to Perform Request")
     post.delete(synchronize_session = False)
     db.commit()    
     return {"date":f"deleted item with index {postid}sucessfully "}
