@@ -4,6 +4,7 @@ from .. import models, schema
 from fastapi import  APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import session
 from app import oauth2
+from sqlalchemy import func
 
 
 
@@ -17,7 +18,7 @@ router = APIRouter(
 
 
 
-@router.get('/',response_model = List[schema.PostResponse])
+@router.get('/',response_model = List[schema.VoteResponse])
 async def get_posts(
     db:session = Depends(get_db),
     current_user:int = Depends(oauth2.get_current_user),
@@ -29,8 +30,10 @@ async def get_posts(
     print(limit)
     # query parameters with sql
 
-    posts = db.query(models.Post).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all()
-    return posts
+    # posts = db.query(models.Post).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all()
+    results = db.query(models.Post, func.count(models.Vote.post_id).label("number_of_votes")).join(models.Vote, models.Vote.post_id == models.Post.postid, isouter = True).group_by(models.Post.postid).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all()
+    print(results)
+    return results
 
 
 
@@ -56,12 +59,12 @@ async def create_post(post:schema.PostCreate, db:session = Depends(get_db), curr
 
 
 
-@router.get("/{postid}",response_model = schema.PostResponse)
+@router.get("/{postid}",response_model = schema.VoteResponse)
 async def get_one_post(postid: int, db:session =  Depends(get_db),user_id:int = Depends(oauth2.get_current_user)):
 
     # cursor.execute(""" SELECT * FROM posts WHERE postid = %s""",(str(postid))) 
     # post = cursor.fetchone()
-   post = db.query(models.Post).filter(models.Post.postid == postid).first()
+   post = db.query(models.Post, func.count(models.Vote.post_id).label("number_of_votes")).join(models.Vote, models.Vote.post_id == models.Post.postid, isouter = True).group_by(models.Post.postid).filter(models.Post.postid == postid).first()
    return post
 
 

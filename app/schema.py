@@ -62,3 +62,10 @@ class TokenPayLoad(BaseModel):
 class Vote(BaseModel):
     post_id: int 
     dir: conint(le = 1)
+
+
+class VoteResponse(BaseModel):
+    Post:PostResponse
+    number_of_votes: int 
+    class Config:
+        orm_mode =  True
