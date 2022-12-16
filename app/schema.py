@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, conint
 
 
 # user auth schema
@@ -59,3 +59,6 @@ class TokenPayLoad(BaseModel):
     user_id:int
 
 
+class Vote(BaseModel):
+    post_id: int 
+    dir: conint(le = 1)
