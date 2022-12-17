@@ -12,9 +12,9 @@ from app.database import SesionLocal, get_db
 ooauth2_schema = OAuth2PasswordBearer(tokenUrl = 'login')
 
 
-SECRET_KEY:str =  "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+SECRET_KEY:str =  settings.secret_key
 
-ALGORITHM:str = "HS256"
+ALGORITHM:str = settings.algorithm
 
 ACCESS_TOKEN_EXPIRATION_TIME:int =  1440 # expires in 24 hrs
 
