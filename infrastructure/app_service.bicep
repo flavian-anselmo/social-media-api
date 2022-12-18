@@ -1,18 +1,26 @@
 param socialmediaPlanName string = 'social-media-linux-service-plan'
 param location string = 'eastus'
-param siteName string = 'social-media-api'
+param siteName string = 'social-media-backend'
 param linuxFxVersion string  = 'PYTHON|3.10'
-param srcControlsName string = 'src'
+
+
+
+// server information (set this in a key vault)
+param ALGORITHM string = 'HS256'
+param DATABASE_HOST string = 'socialmedia-sandbox-server.postgres.database.azure.com'
+param DATABASE_NAME string = 'social-media-db'
+param DATABASE_PASSWORD string = 'rubyrails2005/'
+param DATABASE_PORT string = '5432'
+param DATABASE_USERNAME string = 'anselmo@socialmedia-sandbox-server'
+param SECRET_KEY string = '09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7'
+
 
 @description('')
 resource appServicePlan'Microsoft.Web/serverfarms@2022-03-01'existing ={
   name:socialmediaPlanName
 }
 
-@description('')
-resource srcControls 'Microsoft.Web/sites/sourcecontrols@2022-03-01' = {
-  name:srcControlsName
-}
+
 
 @description('')
 resource appService 'Microsoft.Web/sites@2022-03-01'={
@@ -21,7 +29,6 @@ resource appService 'Microsoft.Web/sites@2022-03-01'={
   
   dependsOn:[
     appServicePlan
-    srcControls
   ]
   properties:{
     serverFarmId:appServicePlan.id
@@ -31,36 +38,39 @@ resource appService 'Microsoft.Web/sites@2022-03-01'={
       appSettings:[
         {
           name:'ALGORITHM'
-          value:'HS256'
+          value:ALGORITHM
         }
 
         {
           name:'DATABASE_HOST'
-          value:'socialmedia-sandbox-server.postgres.database.azure.com'
+          value: DATABASE_HOST
         }
+
         {
           name:'DATABASE_NAME'
-          value:'social-media-db'
+          value: DATABASE_NAME
         }
 
         {
           name:'DATABASE_PASSWORD'
-          value:'rubyrails2005/'
+          value: DATABASE_PASSWORD
         }
 
         {
           name:'DATABASE_PORT'
-          value:'5432'
+          value:DATABASE_PORT
         }
 
         {
           name:'DATABASE_USERNAME'
-          value:'anselmo@socialmedia-sandbox-server'
+          value: DATABASE_USERNAME
         }
+
         {
           name:'SECRET_KEY'
-          value:'09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7'
+          value: SECRET_KEY
         }
+        
       ]
     }
   }
