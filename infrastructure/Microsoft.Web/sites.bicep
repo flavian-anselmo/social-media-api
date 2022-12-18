@@ -1,6 +1,6 @@
 param socialmediaPlanName string = 'social-media-linux-service-plan'
 param location string = 'eastus'
-param siteName string = 'social-media-backend'
+param siteName string = 'social-media-api'
 param linuxFxVersion string  = 'PYTHON|3.10'
 
 

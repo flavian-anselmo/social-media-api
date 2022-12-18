@@ -1,17 +1,17 @@
 /*
   DONE 
-  
+
 */
-param serverName string
+param serverName string = 'socialmedia-sandbox-server'
 param  firewallrules array= [
   
   {
-    Name: 'ClientIPAddress_2022-12-17_11-25-24'
+    Name: 'ClientIPAddress_2022-12-17_11-25-24-rule_1'
     StartIpAddress: '196.201.218.144'
     EndIpAddress: '196.201.218.144'
   }
   {
-    Name: 'AllowAll_2022-12-17_11-24-32'
+    Name: 'AllowAll_2022-12-17_11-24-32-rule_2'
     StartIpAddress: '0.0.0.0'
     EndIpAddress: '255.255.255.255'
   }

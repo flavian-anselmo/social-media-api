@@ -1,5 +1,5 @@
 param location string = 'westus3'
-param serverName string = 'socialmedia-sandbox-server.postgres.database.azure.com'
+param serverName string = 'socialmedia-sandbox-server'
 
 @secure()
 param administratorLogin string 
@@ -13,8 +13,8 @@ resource server 'Microsoft.DBforPostgreSQL/servers@2017-12-01' = {
   sku:{
     capacity: 2
     family: 'Gen5'
-    name: 'GP_Gen5_2'
-    size: 'string'
+    name: 'B_Gen5_2'
+    size: '5120'
     tier: 'Basic'
   }
   properties:{
@@ -25,7 +25,7 @@ resource server 'Microsoft.DBforPostgreSQL/servers@2017-12-01' = {
     version:'11'
     storageProfile:{
       storageMB:51200
-      storageAutogrow:'Enabled'
+      storageAutogrow:'Disabled'
     }
   }
 }
