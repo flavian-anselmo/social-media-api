@@ -1,8 +1,8 @@
-/*
-  DONE 
 
-*/
-param serverName string = 'socialmedia-sandbox-server'
+
+
+
+param serverName string 
 param  firewallrules array= [
   
   {

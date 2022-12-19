@@ -1,5 +1,5 @@
-param location string = 'westus3'
-param serverName string = 'socialmedia-sandbox-server'
+param location string
+param serverName string 
 
 @secure()
 param administratorLogin string 

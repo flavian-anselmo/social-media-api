@@ -1,7 +1,7 @@
-param location string   = 'eastus'
-param operatingSys string = 'linux'
-param skuName string  = 'F1'
-param  socialMediaServicePlanName string = 'social-media-linux-service-plan'
+param location string   
+param operatingSys string 
+param skuName string  
+param  socialMediaServicePlanName string 
 
 @description('social-media-api app service plan')
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01'={
