@@ -35,6 +35,7 @@ resource appService 'Microsoft.Web/sites@2022-03-01'={
     httpsOnly:true
     siteConfig: {
       linuxFxVersion: linuxFxVersion
+    
       appSettings:[
         {
           name:'ALGORITHM'
