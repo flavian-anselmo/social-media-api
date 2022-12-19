@@ -21,7 +21,7 @@ jobs:
     - name: Set up Python version
       uses: actions/setup-python@v1
       with:
-        python-version: 'PYTHON|3.10'
+        python-version: 'PYTHON|3.10.9'
 
     - name: Build using AppService-Build
       uses: azure/appservice-build@v2
