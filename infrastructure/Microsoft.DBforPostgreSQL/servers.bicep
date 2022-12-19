@@ -24,7 +24,7 @@ resource server 'Microsoft.DBforPostgreSQL/servers@2017-12-01' = {
     sslEnforcement:'Enabled'
     version:'11'
     storageProfile:{
-      storageMB:51200
+      storageMB:5120
       storageAutogrow:'Disabled'
     }
   }
