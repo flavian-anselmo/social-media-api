@@ -6,7 +6,7 @@
 //param srcControlName string = 'srcControls'
 param repoUrl string = 'https://github.com/flavian-anselmo/social-media-api'
 param branch string = 'main'
-param runTimeVersion string = 'PYTHON|3.10'
+param runTimeVersion string = 'PYTHON|3.10.9'
 param runTimeStack string = 'PYTHON'
 param appServiceName string = 'social-media-api'
 
