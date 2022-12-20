@@ -1,7 +1,7 @@
 // serverfarm 
 param location_one string   = 'eastus'
 param operatingSys string = 'linux'
-param skuName string  = 'F1'
+param skuName string  = 'B1'
 param  socialMediaServicePlanName string = 'social-media-linux-service-plan'
 
 
