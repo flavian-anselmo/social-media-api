@@ -1,6 +1,1 @@
-
-source /venv/bin/activate
-
-pip install -r requirements.txt
-
-gunicorn -w 2 -k uvicorn.workers.UvicornWorker app.main:app
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
