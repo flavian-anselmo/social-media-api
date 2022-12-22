@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'social-media-api'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0B62359D55904E60886878152CE24E97 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FC6AAF66D58E4B50B84AA08E994C8C1A }}
