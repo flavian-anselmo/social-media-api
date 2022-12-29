@@ -7,7 +7,7 @@ param  socialMediaServicePlanName string = 'social-media-linux-service-plan'
 
 // site 
 param socialmediaPlanName string = 'social-media-linux-service-plan'
-param siteName string = 'social-media-api'
+param siteName string = 'social-media-backend-api'
 param linuxFxVersion string  = 'PYTHON|3.10'
 param ALGORITHM string = 'HS256'
 param DATABASE_HOST string = 'socialmedia-sandbox-server.postgres.database.azure.com'
@@ -47,7 +47,7 @@ module site '../../Microsoft.Web/sites.bicep'={
     DATABASE_NAME:DATABASE_NAME
     DATABASE_PASSWORD:DATABASE_PASSWORD
     DATABASE_PORT:DATABASE_PORT
-    DATABASE_USERNAME:DATABASE_PORT
+    DATABASE_USERNAME:DATABASE_USERNAME
     linuxFxVersion:linuxFxVersion
     location:location_one
     SECRET_KEY:SECRET_KEY
