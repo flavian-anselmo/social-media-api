@@ -6,12 +6,13 @@ param  socialMediaServicePlanName string = 'social-media-linux-service-plan'
 
 
 // site 
-param socialmediaPlanName string = 'social-media-linux-service-plan'
+param socialmediaPlanName string = 'booker-plan'
 param siteName string = 'social-media-backend-api'
 param linuxFxVersion string  = 'PYTHON|3.10'
 param ALGORITHM string = 'HS256'
 param DATABASE_HOST string = 'socialmedia-sandbox-server.postgres.database.azure.com'
 param DATABASE_NAME string = 'social-media-api-db'
+
 param DATABASE_PASSWORD string = 'rubyrails2005/'
 param DATABASE_PORT string = '5432'
 param DATABASE_USERNAME string = 'anselmo@socialmedia-sandbox-server'
