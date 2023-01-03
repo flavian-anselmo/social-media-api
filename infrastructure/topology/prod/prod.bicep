@@ -6,15 +6,15 @@ param  socialMediaServicePlanName string = 'social-media-linux-service-plan'
 
 
 // site 
-param socialmediaPlanName string = 'booker-plan'
-param siteName string = 'social-media-backend-api'
+param socialmediaPlanName string = 'social-media-linux-service-plan'
+param siteName string = 'social-media-api'
 param linuxFxVersion string  = 'PYTHON|3.10'
 param ALGORITHM string = 'HS256'
 param DATABASE_HOST string = 'socialmedia-sandbox-server.postgres.database.azure.com'
 param DATABASE_NAME string = 'social-media-api-db'
 
 param DATABASE_PASSWORD string = 'rubyrails2005/'
-param DATABASE_PORT string = '5432'
+param DATABASE_PORT string = '8000'
 param DATABASE_USERNAME string = 'anselmo@socialmedia-sandbox-server'
 param SECRET_KEY string = '09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7'
 
@@ -75,6 +75,8 @@ module postgreSQLServer '../../Microsoft.DBforPostgreSQL/servers.bicep'={
 module firewallRules '../../Microsoft.DBforPostgreSQL/servers/firewall_rules.bicep' ={
   dependsOn:[
     postgreSQLServer
+    site
+    serverFarm
   ]
   name:'firewallRules'
   params:{
