@@ -1,7 +1,9 @@
 # social-media-api 
 
 A social media API that manages user account creation with access tokens, post creation, update, and deletion, as well as upvotes and downvotes. Built with FastAPI and powered by a Postgres database. The cloud infrastructure is built with Bicep.
+## Read the Docs
 
+[social-media-api.azurewebsites.net/docs](https://social-media-api.azurewebsites.net/docs)
 
 # Architectural Overview of Deploying on Azure App Service
 The request is received by [Gunicorn](http://gunicorn.org/) which spwans the FastAPI running on four child workerprocesses with the help of Asynchronous [Uvicorn Worker Class](https://www.uvicorn.org/#running-with-gunicorn). Each of the Uvicorn [worker class](https://docs.gunicorn.org/en/stable/settings.html#worker-class) runs FastAPI app on a randomly chosen process id (pid) and the request delegation is handled by the Gunicorn that runs on a process id that can be configured to run on specified port.
@@ -21,3 +23,40 @@ Used **Bicep** for  Infrastructure as Code (IaC)
 - **Cloud Infrastructure visualization**
 
 ![visualization](assets/iac.png)
+
+
+
+# Installation
+
+1. Navigate into your desired folder, then clone this repository  as shown, remember the dot (.) so as to avoid duplicating this repository name again.
+
+    `https://github.com/flavian-anselmo/social-media-api.git .`
+
+1. Change to that specific directory
+
+    `cd directory path`
+
+1. Install the requirements from the requirements.txt file.
+
+    `pip install -r requirements.txt`
+
+1. Create a `.env` file in the root of the directory then add the following contents, adding values for each depending on your configs.
+
+    ```
+    DATABASE_HOSTNAME=
+    DATABASE_PORT=
+    DATABASE_PASSWORD=
+    DATABASE_NAME=
+    DATABASE_USERNAME=
+    SECRET_KEY=     #jwt auth -> random alphanumeric  
+    ALGORITHM=HS256
+
+    ```
+
+1. Run a database migration
+
+    `alembic upgrade head`
+
+1. Start the server
+
+    `uvicorn app.main:app --reload`
