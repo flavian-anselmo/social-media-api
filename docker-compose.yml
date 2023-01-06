@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  api:
+    build: .
+    depends_on:
+      - postgres
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/usr/src/app:ro
+    command: uvicorn app.main:app --host 0.0.0.0 --reload 
+    env_file:
+      - ./.env
+  
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=anselmo
+      - POSTGRES_DB=social-media-api-db
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+      
+volumes:
+  postgres-db: 
