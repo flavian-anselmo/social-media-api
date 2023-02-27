@@ -60,3 +60,4 @@ Used **Bicep** for  Infrastructure as Code (IaC)
 1. Start the server
 
     `uvicorn app.main:app --reload`
+# e-citizen-api
