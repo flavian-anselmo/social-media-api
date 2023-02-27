@@ -2,16 +2,16 @@
 param location_one string   = 'eastus'
 param operatingSys string = 'linux'
 param skuName string  = 'B1'
-param  socialMediaServicePlanName string = 'social-media-linux-service-plan'
+param  socialMediaServicePlanName string = 'e-citizen-linux-service-plan'
 
 
 // site 
-param socialmediaPlanName string = 'social-media-linux-service-plan'
-param siteName string = 'social-media-api'
+ param appServicePlanName string = 'e-citizen-linux-service-plan'
+param siteName string = 'e-citizen-api'
 param linuxFxVersion string  = 'PYTHON|3.10'
 param ALGORITHM string = 'HS256'
 param DATABASE_HOST string = 'socialmedia-sandbox-server.postgres.database.azure.com'
-param DATABASE_NAME string = 'social-media-api-db'
+param DATABASE_NAME string = 'ecitizen-api-db'
 
 param DATABASE_PASSWORD string = 'rubyrails2005/'
 param DATABASE_PORT string = '8000'
@@ -20,7 +20,7 @@ param SECRET_KEY string = '09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf
 
 // server 
 param location_two string = 'westus3'
-param serverName string = 'socialmedia-sandbox-server'
+param serverName string = 'ecitizen-sandbox-server'
 @secure()
 param administratorLogin string 
 @secure()
@@ -53,7 +53,7 @@ module site '../../Microsoft.Web/sites.bicep'={
     location:location_one
     SECRET_KEY:SECRET_KEY
     siteName:siteName
-    socialmediaPlanName:socialmediaPlanName
+    appServicePlanName:appServicePlanName
   }
 }
 

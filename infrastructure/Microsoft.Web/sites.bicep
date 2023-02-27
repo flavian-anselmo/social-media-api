@@ -1,4 +1,4 @@
-param socialmediaPlanName string 
+param appServicePlanName string 
 param location string 
 param siteName string 
 param linuxFxVersion string  
@@ -17,7 +17,7 @@ param SECRET_KEY string
 
 @description('')
 resource appServicePlan'Microsoft.Web/serverfarms@2022-03-01'existing ={
-  name:socialmediaPlanName
+  name:appServicePlanName
 }
 
 
