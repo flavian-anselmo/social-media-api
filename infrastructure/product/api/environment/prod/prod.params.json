@@ -1,0 +1,53 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+
+        "socialmediaPlanName":{
+            "value": "social-media-linux-service-plan"
+        },
+
+        "ALGORITHM":{
+            "value": "HS256"
+        },
+        "DATABASE_HOST":{
+            "value": "socialmedia-sandbox-server.postgres.database.azure.com"
+        },
+        "DATABASE_NAME":{
+            "value": "social-media-api-db"
+        },
+        "DATABASE_PORT":{
+            "value": "8000"
+        },
+        "DATABASE_USERNAME":{
+            "value": "anselmo@socialmedia-sandbox-server"
+        },
+        "linuxFxVersion":{
+            "value": "PYTHON|3.10"
+        },
+        "location_one":{
+            "value": "eastus"
+        },
+        "operatingSys":{
+            "value": "linux"
+        },
+        "SECRET_KEY":{
+            "value": "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+        },
+        "siteName":{
+            "value": "social-media-api"
+        },
+        "skuName":{
+            "value": "B1"
+        },
+        "socialMediaServicePlanName":{
+            "value": "social-media-linux-service-plan"
+        },
+        "location_two":{
+            "value": "westus3"
+        },
+        "serverName":{
+            "value": "socialmedia-sandbox-server"
+        }    
+    }
+}
